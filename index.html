@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>Emoji Merge</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🥚 Emoji Merge</h1>
+      <div class="scores">
+        <div class="score-box">
+          <span class="label">Score</span>
+          <span id="score">0</span>
+        </div>
+        <div class="score-box">
+          <span class="label">Best</span>
+          <span id="best">0</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="info-row">
+      <p class="hint">Swipe or use arrow keys. Merge two of a kind to evolve!</p>
+      <button id="new-game">New Game</button>
+    </div>
+
+    <div id="board" class="board">
+      <div id="overlay" class="overlay hidden">
+        <p id="overlay-text"></p>
+        <button id="overlay-btn">Play Again</button>
+      </div>
+    </div>
+
+    <div class="chain" id="chain"></div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
