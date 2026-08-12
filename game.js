@@ -39,18 +39,21 @@ function spawn() {
       if (grid[r][c] === -1) empty.push([r, c]);
   if (!empty.length) return;
   const [r, c] = empty[Math.floor(Math.random() * empty.length)];
-  grid[r][c] = Math.random() < 0.9 ? 0 : 1;
+  const chickChance = typeof Pond !== "undefined" ? Pond.tier1Chance() : 0.1;
+  grid[r][c] = Math.random() < chickChance ? 1 : 0;
 }
 
-// Slide one row/column line toward index 0. Returns {line, gained, moved}.
+// Slide one row/column line toward index 0. Returns {line, gained, moved, created}.
 function slideLine(line) {
   const vals = line.filter(v => v !== -1);
   const out = [];
   let gained = 0;
+  const created = [];
   for (let i = 0; i < vals.length; i++) {
     if (i + 1 < vals.length && vals[i] === vals[i + 1] && vals[i] < EMOJIS.length - 1) {
       out.push(vals[i] + 1);
       gained += Math.pow(2, vals[i] + 1);
+      created.push(vals[i] + 1);
       i++;
     } else {
       out.push(vals[i]);
@@ -58,7 +61,7 @@ function slideLine(line) {
   }
   while (out.length < SIZE) out.push(-1);
   const moved = out.some((v, i) => v !== line[i]);
-  return { line: out, gained, moved };
+  return { line: out, gained, moved, created };
 }
 
 function move(dir) {
@@ -66,6 +69,7 @@ function move(dir) {
   // dir: 0=left 1=right 2=up 3=down
   let moved = false;
   let gained = 0;
+  const created = [];
 
   for (let i = 0; i < SIZE; i++) {
     let line = [];
@@ -77,6 +81,7 @@ function move(dir) {
     }
     const res = slideLine(line);
     gained += res.gained;
+    created.push(...res.created);
     if (res.moved) moved = true;
     for (let j = 0; j < SIZE; j++) {
       if (dir === 0) grid[i][j] = res.line[j];
@@ -93,6 +98,7 @@ function move(dir) {
     best = score;
     localStorage.setItem("emoji-merge-best", best);
   }
+  if (typeof Pond !== "undefined") created.forEach(t => Pond.addCreature(t));
   spawn();
   render();
   checkEnd();
@@ -165,6 +171,7 @@ function renderChain() {
 
 // --- input ---
 document.addEventListener("keydown", e => {
+  if (typeof Pond !== "undefined" && Pond.isOpen()) return;
   const map = { ArrowLeft: 0, ArrowRight: 1, ArrowUp: 2, ArrowDown: 3, a: 0, d: 1, w: 2, s: 3 };
   if (map[e.key] !== undefined) {
     e.preventDefault();
@@ -180,6 +187,7 @@ document.addEventListener("touchstart", e => {
 
 document.addEventListener("touchend", e => {
   if (touchX === null) return;
+  if (typeof Pond !== "undefined" && Pond.isOpen()) { touchX = touchY = null; return; }
   const dx = e.changedTouches[0].clientX - touchX;
   const dy = e.changedTouches[0].clientY - touchY;
   touchX = touchY = null;

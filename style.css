@@ -178,3 +178,152 @@ button:active {
 .chain .locked {
   filter: grayscale(1) brightness(0.5);
 }
+
+/* --- tabs & screens --- */
+
+.tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab {
+  flex: 1;
+  background: #16213e;
+  color: #8888aa;
+}
+
+.tab.active {
+  background: #e94560;
+  color: #fff;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.screen.hidden {
+  display: none;
+}
+
+/* --- pond --- */
+
+#screen-pond {
+  touch-action: pan-y;
+}
+
+.pond-stats {
+  display: flex;
+  gap: 8px;
+}
+
+.pond-stats .score-box {
+  flex: 1;
+}
+
+.pond-scene {
+  position: relative;
+  height: 250px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1b4a6b 0%, #0f3460 60%, #0c2a50 100%);
+  overflow: hidden;
+}
+
+.decor {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.creature {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  animation: drift 5s ease-in-out infinite alternate;
+}
+
+.creature .c-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.creature .c-count {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #ffd166;
+  text-shadow: 0 1px 2px #000;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(14px, -8px); }
+}
+
+.pond-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8888aa;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.pond-msg {
+  text-align: center;
+  min-height: 1em;
+}
+
+.upgrades {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #16213e;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.upg .u-emoji {
+  font-size: 1.5rem;
+}
+
+.upg .u-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upg .u-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.upg .u-lvl {
+  color: #ffd166;
+  font-size: 0.75rem;
+}
+
+.upg .u-desc {
+  font-size: 0.72rem;
+  color: #8888aa;
+}
+
+.upg button {
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  min-width: 80px;
+}
+
+.upg button:disabled {
+  background: #3a3a5c;
+  color: #8888aa;
+  cursor: default;
+}
